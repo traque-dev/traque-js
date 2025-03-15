@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "traque-js",
   "private": true,
   "scripts": {
     "build": "turbo run build",
