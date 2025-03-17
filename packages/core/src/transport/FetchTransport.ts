@@ -1,0 +1,36 @@
+import { Transport } from './Transport';
+import type { Exception } from '../types';
+import { buildUrl } from '../utils/url';
+
+export class FetchTransport extends Transport {
+  private readonly logExceptionUrl: string;
+
+  constructor(serviceUrl: string, publicApiKey: string) {
+    super(serviceUrl, publicApiKey);
+
+    this.logExceptionUrl = buildUrl(serviceUrl, '/api/v1/exceptions');
+  }
+
+  override send = (exception: Exception): void => {
+    if (typeof fetch === 'undefined') {
+      console.error('Fetch not available in this environment');
+      return;
+    }
+
+    try {
+      fetch(this.logExceptionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': this.publicApiKey,
+        },
+        body: JSON.stringify(exception),
+        keepalive: true,
+      }).catch((error: unknown) => {
+        console.error('Failed to send event:', error);
+      });
+    } catch (error: unknown) {
+      console.error('Error sending event:', error);
+    }
+  };
+}
