@@ -31,6 +31,7 @@ export class TraqueExceptionFilter extends BaseExceptionFilter {
     if (exception instanceof HttpException) {
       const ctx = host.switchToHttp();
       const request = ctx.getRequest();
+      const exceptionResponse = exception.getResponse();
 
       const statusCode = exception?.getStatus();
       const status = HttpStatus?.[statusCode];
@@ -42,6 +43,7 @@ export class TraqueExceptionFilter extends BaseExceptionFilter {
         clientIp,
         method: request?.method,
         url: request?.url,
+        response: exceptionResponse,
       };
     }
 

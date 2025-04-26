@@ -1,10 +1,16 @@
 {
   "name": "@traque/nest",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.4",
+  "author": "Speekl, LLC",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/traque-dev/traque-js",
+    "directory": "packages/nest"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup src/index.ts --format esm,cjs --watch --dts",

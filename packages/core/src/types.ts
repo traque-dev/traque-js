@@ -27,6 +27,7 @@ type HttpContext = {
   statusCode?: number;
   status?: string;
   clientIp?: string;
+  response?: unknown;
 };
 
 export type Exception = {
