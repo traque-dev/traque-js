@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { BaseExceptionFilter, HttpAdapterHost } from '@nestjs/core';
 import { type Exception, Platform } from '@traque/core';
-import { getClientIp } from '../utils/ip';
 import { Traque as TraqueNest } from '../sdk';
+import { getClientIp } from '@traque/utils';
 
 @Catch()
 export class TraqueExceptionFilter extends BaseExceptionFilter {
