@@ -1,15 +1,14 @@
 {
-  "name": "@traque/utils",
+  "name": "@traque/react",
   "version": "0.0.1-alpha.5",
-  "author": "Speekl, LLC",
-  "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/traque-dev/traque-js",
-    "directory": "packages/utils"
+    "directory": "packages/react"
   },
   "scripts": {
     "build": "tsup",
@@ -17,8 +16,17 @@
     "lint": "eslint src/",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
+  "author": "Speekl, LLC",
+  "license": "ISC",
+  "dependencies": {
+    "@traque/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
   "devDependencies": {
-    "@types/node": "^22.13.10",
+    "@types/react": "^19.1.2",
+    "prettier": "^3.5.3",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2"
   },

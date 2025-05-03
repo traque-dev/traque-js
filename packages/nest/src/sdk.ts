@@ -5,7 +5,7 @@ import { HttpAdapterHost } from '@nestjs/core';
 import { TraqueExceptionFilter } from './filters/TraqueException.filter';
 
 export class Traque extends TraqueCore {
-  public readonly app?: INestApplication;
+  public app?: INestApplication;
   public readonly logger?: Logger;
 
   constructor(config: TraqueNestConfig) {
@@ -16,6 +16,10 @@ export class Traque extends TraqueCore {
   }
 
   setupNestExceptionFilter(app: INestApplication) {
+    if (!this.app) {
+      this.app = app;
+    }
+
     const httpAdapter = app.get(HttpAdapterHost);
 
     app.useGlobalFilters(new TraqueExceptionFilter(httpAdapter, this));

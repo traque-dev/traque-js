@@ -1,0 +1,22 @@
+{
+  "name": "express-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup src/index.ts --format esm,cjs --watch --dts --onSuccess \"node dist/index.js\"",
+    "lint": "eslint src/",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "dependencies": {
+    "@traque/node": "workspace:*",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "typescript": "^5.8.3"
+  }
+}

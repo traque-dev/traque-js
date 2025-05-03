@@ -8,6 +8,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
+    "bumpp": "bumpp",
     "release": "turbo --filter \"./packages/*\" build && bumpp && pnpm publish",
     "publish": "pnpm -r publish --access public --no-git-checks"
   },
