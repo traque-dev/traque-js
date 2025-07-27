@@ -38,6 +38,11 @@ export type Exception = {
   httpContext?: HttpContext;
 };
 
+export type Event = {
+  name: string;
+  properties: Record<string, any>;
+};
+
 export interface Plugin {
   handle(exception: Exception): void | Promise<void>;
 }

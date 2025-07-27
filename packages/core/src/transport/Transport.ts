@@ -1,4 +1,4 @@
-import type { Exception } from '../types';
+import type { Exception, Event } from '../types';
 
 export class Transport {
   protected readonly serviceUrl: string;
@@ -9,7 +9,11 @@ export class Transport {
     this.publicApiKey = publicApiKey;
   }
 
-  send(event: Exception) {
+  sendException(exception: Exception) {
+    throw new Error('Transport method is not implemented');
+  }
+
+  sendEvent(event: Event) {
     throw new Error('Transport method is not implemented');
   }
 }

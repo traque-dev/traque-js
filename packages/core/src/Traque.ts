@@ -1,4 +1,4 @@
-import type { Config, Exception } from './types';
+import type { Config, Exception, Event } from './types';
 import { FetchTransport, Transport } from './transport';
 
 export class Traque {
@@ -37,6 +37,15 @@ export class Traque {
       ...exception,
     };
 
-    return this.transport.send(detailedException);
+    return this.transport.sendException(detailedException);
+  }
+
+  captureEvent(name: Event['name'], properties: Event['properties']) {
+    const event: Event = {
+      name,
+      properties,
+    };
+
+    return this.transport.sendEvent(event);
   }
 }
