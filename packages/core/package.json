@@ -1,6 +1,6 @@
 {
   "name": "@traque/core",
-  "version": "0.0.1-alpha.7",
+  "version": "0.0.1-alpha.8",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
