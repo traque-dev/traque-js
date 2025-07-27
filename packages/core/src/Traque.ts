@@ -40,7 +40,7 @@ export class Traque {
     return this.transport.sendException(detailedException);
   }
 
-  captureEvent(name: Event['name'], properties: Event['properties']) {
+  captureEvent(name: Event['name'], properties?: Event['properties']) {
     const event: Event = {
       name,
       properties,

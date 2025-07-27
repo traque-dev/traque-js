@@ -40,7 +40,7 @@ export type Exception = {
 
 export type Event = {
   name: string;
-  properties: Record<string, any>;
+  properties?: Record<string, any>;
 };
 
 export interface Plugin {
