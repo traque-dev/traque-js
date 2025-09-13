@@ -103,11 +103,14 @@ export class Traque {
         environment: this.config.environment,
         name: exception.name || 'Error',
         message: exception.message || String(exception),
-        stack: this.config.sendStacktrace ? exception.stack : undefined,
-        stacktrace:
-          exception.stack && this.config.sendStacktrace
-            ? parseStacktrace(exception.stack)
-            : undefined,
+        stacktrace: this.config.sendStacktrace
+          ? {
+              frames: exception.stack
+                ? parseStacktrace(exception.stack).frames
+                : undefined,
+              stack: exception.stack,
+            }
+          : undefined,
       };
     }
 

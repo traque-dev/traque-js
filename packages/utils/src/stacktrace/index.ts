@@ -81,17 +81,16 @@ function parseLine(line: string): StackFrame | undefined {
     const functionName = (match.groups['fn'] || '').trim() || undefined;
     const lineNumber = toNumber(match.groups['line']);
     const columnNumber = toNumber(match.groups['col']);
-    const file = basename(rawPath);
+    const filename = basename(rawPath);
 
     const frame: StackFrame = {
-      filename: file,
-      function: functionName,
+      filename,
+      functionName,
       lineNumber,
       columnNumber,
       absolutePath: rawPath || undefined,
       module: extractModule(rawPath || ''),
       inApp: !isInternalOrExternal(rawPath || '', functionName),
-      platform: 'javascript',
     };
     return frame;
   }
@@ -113,7 +112,6 @@ export function parseStacktrace(stack: string): Stacktrace {
     }
   }
 
-  // Sentry expects frames oldest -> newest
   if (frames.length > 1) {
     frames.reverse();
   }

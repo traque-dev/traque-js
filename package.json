@@ -10,6 +10,7 @@
     "check-types": "turbo run check-types",
     "bumpp": "bumpp --no-commit --no-push --no-tag",
     "release": "turbo --filter \"./packages/*\" build && bumpp && pnpm publish",
+    "build:packages": "turbo --filter \"./packages/*\" build",
     "publish": "pnpm -r publish --access public --no-git-checks"
   },
   "devDependencies": {

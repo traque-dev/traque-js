@@ -38,8 +38,7 @@ export type Exception = {
   name: string;
   message: string;
   httpContext?: HttpContext;
-  stack?: string;
-  stacktrace?: Stacktrace;
+  stacktrace?: Partial<Stacktrace> & { stack?: string };
 };
 
 export type Event = {

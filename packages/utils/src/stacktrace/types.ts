@@ -1,6 +1,6 @@
 export type StackFrame = {
   filename?: string;
-  function?: string;
+  functionName?: string;
   lineNumber?: number;
   columnNumber?: number;
   absolutePath?: string;
