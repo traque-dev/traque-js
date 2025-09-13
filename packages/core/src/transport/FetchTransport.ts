@@ -1,6 +1,6 @@
 import { Transport } from './Transport';
 import type { Exception, Event } from '../types';
-import { buildUrl } from '../utils/url';
+import { buildUrl } from '@traque/utils';
 
 export class FetchTransport extends Transport {
   private readonly captureExceptionUrl: string;

@@ -1,26 +1,36 @@
 {
   "name": "@traque/utils",
-  "version": "0.0.1-alpha.9",
+  "version": "0.0.1-alpha.10",
   "author": "Speekl, LLC",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/traque-dev/traque-js",
     "directory": "packages/utils"
   },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup src/index.ts --format esm,cjs --watch --dts",
     "lint": "eslint src/",
+    "test": "vitest run",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vitest": "^2.1.9"
   },
   "files": [
     "dist"

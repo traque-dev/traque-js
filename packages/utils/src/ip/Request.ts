@@ -1,4 +1,4 @@
-import * as Net from 'net';
+import { isIP } from './isIP';
 
 import { InteractsWithHeaders } from './InteractsWithHeaders';
 
@@ -333,7 +333,7 @@ export class Request extends InteractsWithHeaders {
    * @returns {Boolean}
    */
   isIpv4(ip?: string): boolean {
-    return Net.isIP(ip ?? '') === 4;
+    return isIP(ip ?? '') === 4;
   }
 
   /**
@@ -344,6 +344,6 @@ export class Request extends InteractsWithHeaders {
    * @returns {Boolean}
    */
   isIpv6(ip?: string): boolean {
-    return Net.isIP(ip ?? '') === 6;
+    return isIP(ip ?? '') === 6;
   }
 }

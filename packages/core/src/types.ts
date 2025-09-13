@@ -1,3 +1,5 @@
+import type { Stacktrace } from '@traque/utils';
+
 type Environment = 'PRODUCTION' | 'STAGING' | 'DEVELOPMENT';
 
 export enum HttpRequestMethod {
@@ -36,6 +38,8 @@ export type Exception = {
   name: string;
   message: string;
   httpContext?: HttpContext;
+  stack?: string;
+  stacktrace?: Stacktrace;
 };
 
 export type Event = {
@@ -52,5 +56,9 @@ export interface Config {
   apiKey: string;
   environment: Environment;
   plugins?: Plugin[];
-  // sampleRate?: number;
+  sendStacktrace?: boolean;
+  sampleRate?: {
+    exceptions: number;
+    events: number;
+  };
 }

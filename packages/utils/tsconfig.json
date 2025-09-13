@@ -7,7 +7,7 @@
     "resolveJsonModule": true,
     "module": "Preserve",
     "noEmit": true,
-    "types": ["node"],
+    "types": ["node", "vitest"],
     "moduleResolution": "Bundler",
     "moduleDetection": "force",
     "isolatedModules": true,

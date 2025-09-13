@@ -5,9 +5,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { BaseExceptionFilter, HttpAdapterHost } from '@nestjs/core';
-import { type Exception, Platform } from '@traque/core';
+import { Platform, getClientIp } from '@traque/core';
 import { Traque as TraqueNest } from '../sdk';
-import { getClientIp } from '@traque/utils';
 
 @Catch()
 export class TraqueExceptionFilter extends BaseExceptionFilter {
@@ -19,14 +18,11 @@ export class TraqueExceptionFilter extends BaseExceptionFilter {
   }
 
   override async catch(exception: any, host: ArgumentsHost): Promise<void> {
-    const { environment, plugins = [] } = this.traque.getConfig();
+    const { plugins = [] } = this.traque.getConfig();
 
-    const traqueException: Exception = {
-      environment,
-      platform: Platform.NEST_JS,
-      name: exception.name,
-      message: exception.message,
-    };
+    const traqueException = this.traque.mapToTraqueException(exception);
+
+    traqueException.platform = Platform.NEST_JS;
 
     if (exception instanceof HttpException) {
       const ctx = host.switchToHttp();
@@ -47,8 +43,8 @@ export class TraqueExceptionFilter extends BaseExceptionFilter {
       };
     }
 
-    this.traque?.logger?.error(
-      `Handle exception: ${JSON.stringify(traqueException)}`,
+    this.traque?.logger?.warn(
+      `Handle exception ${traqueException.name}: ${traqueException.message}`,
     );
 
     for (const plugin of plugins) {
