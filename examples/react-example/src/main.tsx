@@ -1,8 +1,13 @@
+import { Traque, TraqueProvider } from '@traque/react';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { App } from './App.tsx';
+
 import './index.css';
-import App from './App.tsx';
-import { Traque, TraqueProvider } from '@traque/react';
+
+const queryClient = new QueryClient();
 
 const traque = new Traque({
   serviceUrl: import.meta.env.VITE_TRAQUE_SERVICE_URL,
@@ -12,8 +17,10 @@ const traque = new Traque({
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <TraqueProvider traque={traque}>
-      <App />
+    <TraqueProvider client={traque}>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
     </TraqueProvider>
   </StrictMode>,
 );

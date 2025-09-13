@@ -11,3 +11,5 @@ export type ResponseLike = {
   statusCode?: number;
   statusMessage?: string;
 };
+
+export type NextFunctionLike = (error?: any) => void;

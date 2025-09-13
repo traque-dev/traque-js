@@ -1,11 +1,12 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
-import type { Exception } from '@traque/core';
+import type { Traque } from '@traque/core';
 import { useTraque } from './TraqueProvider';
 
-type Props = {
+type BaseProps = {
   children: ReactNode;
   fallback?: ReactNode | ((error: Error) => ReactNode);
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
+  traque: Traque;
 };
 
 type State = {
@@ -13,15 +14,14 @@ type State = {
   error: Error | null;
 };
 
-class ErrorBoundaryBase extends Component<
-  Props & { captureException: (exception: Exception) => void },
-  State
-> {
-  constructor(
-    props: Props & { captureException: (exception: Exception) => void },
-  ) {
+class ErrorBoundaryBase extends Component<BaseProps, State> {
+  constructor(props: BaseProps) {
     super(props);
-    this.state = { hasError: false, error: null };
+
+    this.state = {
+      hasError: false,
+      error: null,
+    };
   }
 
   static getDerivedStateFromError(error: Error): State {
@@ -29,12 +29,9 @@ class ErrorBoundaryBase extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    const { captureException, onError } = this.props;
+    const { traque, onError } = this.props;
 
-    captureException({
-      name: error.name,
-      message: error.message,
-    });
+    traque.captureException(error);
 
     onError?.(error, errorInfo);
   }
@@ -43,19 +40,21 @@ class ErrorBoundaryBase extends Component<
     const { hasError, error } = this.state;
     const { children, fallback } = this.props;
 
-    if (hasError && error) {
+    if (hasError && error && fallback) {
       if (typeof fallback === 'function') {
         return fallback(error);
       }
-      return fallback || <div>Something went wrong.</div>;
+      return fallback;
     }
 
     return children;
   }
 }
 
-export function ErrorBoundary(props: Props) {
-  const { captureException } = useTraque();
+type ErrorBoundaryProps = Omit<BaseProps, 'traque'>;
 
-  return <ErrorBoundaryBase {...props} captureException={captureException} />;
+export function ErrorBoundary(props: ErrorBoundaryProps) {
+  const traque = useTraque();
+
+  return <ErrorBoundaryBase {...props} traque={traque} />;
 }

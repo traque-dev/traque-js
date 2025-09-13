@@ -1,45 +1,44 @@
 import { useTraque } from '@traque/react';
-import { useState } from 'react';
 import './App.css';
+import { useMutation } from '@tanstack/react-query';
+import { ErrorBoundaryExample } from './ErrorBoundaryExample';
+import { ApiError } from './ApiError';
 
-const apiCallThatThrowsError = async () => {
-  return new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('API call failed')), 1000),
-  );
-};
+export function App() {
+  const traque = useTraque();
 
-function App() {
-  const { captureException } = useTraque();
-
-  const [message, setMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const throwAnError = async () => {
-    try {
-      setMessage(null);
-      setLoading(true);
-      await apiCallThatThrowsError();
-    } catch (error: unknown) {
-      captureException(error);
-      if (error instanceof Error) {
-        setMessage(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      throw new ApiError('API call failed');
+    },
+    onError: (error) => {
+      traque.captureException(error);
+    },
+  });
 
   return (
     <>
-      <h1>Traque + React</h1>
+      <h1>
+        <a target="_blank" href="https://traque.dev/">
+          Traque
+        </a>{' '}
+        +{' '}
+        <a target="_blank" href="https://react.dev/">
+          React
+        </a>
+      </h1>
       <div className="card">
-        <button onClick={() => throwAnError()} disabled={loading}>
-          {loading ? 'Loading...' : 'Throw an error'}
+        <button onClick={() => traque.captureEvent('click', { name: 'anon' })}>
+          Track event
         </button>
-        {message && <div className="error">{message}</div>}
+        <button onClick={() => mutate()} disabled={isPending}>
+          {isPending ? 'Loading...' : 'Throw an error'}
+        </button>
+        {error && <div className="error">{error.message}</div>}
       </div>
+
+      <ErrorBoundaryExample />
     </>
   );
 }
-
-export default App;
